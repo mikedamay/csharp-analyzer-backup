@@ -1,12 +1,13 @@
 using Exercism.Analyzers.CSharp.Analyzers.Shared;
 using Exercism.Analyzers.CSharp.Analyzers.Syntax.Comparison;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace Exercism.Analyzers.CSharp.Analyzers.Syntax
 {
     internal static class ExpressionSyntaxExtensions
     {
-        public static bool AssignedToVariable(this ExpressionSyntax expression, out VariableDeclaratorSyntax variableDeclarator)
+        public static bool AssignedToVariable(this ExpressionSyntax expression, out VariableDeclaratorSyntax? variableDeclarator)
         {
             variableDeclarator =
                 expression != null &&

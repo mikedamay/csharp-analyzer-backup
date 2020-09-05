@@ -23,6 +23,9 @@ namespace Exercism.Analyzers.CSharp
         public SolutionAnalysis ReferToMentor(params string[] comments) =>
             ToSolutionAnalysis(SolutionStatus.ReferToMentor, comments);
 
+        public SolutionAnalysis NoComment() =>
+            ToSolutionAnalysis(SolutionStatus.None, new string[] { });
+
         private SolutionAnalysis ToSolutionAnalysis(SolutionStatus status, params string[] comments) =>
             new SolutionAnalysis(Solution, new SolutionAnalysisResult(status, comments));
     }

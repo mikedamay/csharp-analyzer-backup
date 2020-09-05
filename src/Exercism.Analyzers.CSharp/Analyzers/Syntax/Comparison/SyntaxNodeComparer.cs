@@ -15,9 +15,9 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Syntax.Comparison
             if (node == null || other == null)
                 return false;
 
-            return node.Normalize().IsEquivalentTo(other.Normalize());
+            return node?.Normalize()?.IsEquivalentTo(other?.Normalize()) ?? false;
         }
 
-        private static SyntaxNode Normalize(this SyntaxNode node) => NormalizeSyntaxRewriter.Visit(node);
+        private static SyntaxNode? Normalize(this SyntaxNode node) => NormalizeSyntaxRewriter?.Visit(node);
     }
 }

@@ -9,7 +9,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Shared
 {
     internal static class SharedAnalyzer
     {
-        public static SolutionAnalysis Analyze(ParsedSolution parsedSolution)
+        public static SolutionAnalysis? Analyze(ParsedSolution parsedSolution)
         {
             if (parsedSolution.HasCompileErrors())
                 return parsedSolution.DisapproveWithComment(SharedComments.FixCompileErrors);
@@ -44,5 +44,11 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Shared
                 SimpleMemberAccessExpression(
                     IdentifierName("Console"),
                     IdentifierName("Write")));
+
+        private static bool HasComments(this ParsedSolution parsedSolution) =>
+            parsedSolution.HasCompileErrors()
+            || parsedSolution.HasMainMethod()
+            || parsedSolution.ThrowsNotImplementedException()
+            || parsedSolution.WritesToConsole();
     }
 }

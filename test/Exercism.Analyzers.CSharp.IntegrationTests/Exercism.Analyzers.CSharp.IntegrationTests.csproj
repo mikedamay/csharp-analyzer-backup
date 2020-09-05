@@ -14,10 +14,32 @@
   <ItemGroup>
     <SolutionFiles Include="Solutions\**" />
     <Compile Remove="@(SolutionFiles)" />
+    <SolutionFiles Remove="Solutions\Leap\**" />
+    <Compile Remove="Solutions\Leap\**" />
+    <SolutionFiles Remove="Solutions\Missing\**" />
+    <Compile Remove="Solutions\Missing\**" />
+    <SolutionFiles Remove="Solutions\TwoFer\**" />
+    <Compile Remove="Solutions\TwoFer\**" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Exercism.Analyzers.CSharp\Exercism.Analyzers.CSharp.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Solutions\Gigasecond\Invalid\VoidAdd" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="Solutions\Leap\**" />
+    <EmbeddedResource Remove="Solutions\Missing\**" />
+    <EmbeddedResource Remove="Solutions\TwoFer\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Solutions\Leap\**" />
+    <None Remove="Solutions\Missing\**" />
+    <None Remove="Solutions\TwoFer\**" />
   </ItemGroup>
   
   <Target Name="CopySolutions" AfterTargets="Build">

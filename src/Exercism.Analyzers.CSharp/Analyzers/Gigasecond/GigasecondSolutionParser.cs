@@ -1,6 +1,8 @@
 using System.Linq;
 using Exercism.Analyzers.CSharp.Analyzers.Syntax;
 using Exercism.Analyzers.CSharp.Analyzers.Syntax.Comparison;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using static Exercism.Analyzers.CSharp.Analyzers.Gigasecond.GigasecondSyntaxFactory;
 using static Exercism.Analyzers.CSharp.Analyzers.Shared.SharedSyntax;
@@ -14,34 +16,38 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
         public static GigasecondSolution Parse(ParsedSolution solution)
         {
             var gigasecondClass = solution.GigasecondClass();
-            var addMethod = gigasecondClass.AddMethod();
-            var addMethodParameter = addMethod.FirstParameter();
-            var addMethodReturnedExpression = addMethod.ReturnedExpression();
-            var addSecondsInvocationExpression = addMethod.AddSecondsInvocationExpression(addMethodParameter);
-            var addSecondsArgumentExpression = addSecondsInvocationExpression.FirstArgumentExpression();
-            var addSecondsArgumentVariable = gigasecondClass.ArgumentVariable(addSecondsArgumentExpression);
-            var addSecondsArgumentVariableFieldDeclaration = addSecondsArgumentVariable.FieldDeclaration();
-            var addSecondsArgumentVariableLocalDeclarationStatement = addSecondsArgumentVariable.LocalDeclarationStatement();
+            var addMethod = gigasecondClass?.AddMethod();
+            var addMethodParameter = addMethod?.FirstParameter();
+            var addMethodReturnedExpression = addMethod?.ReturnedExpression();
+            var addSecondsInvocationExpression = addMethod?.AddSecondsInvocationExpression(addMethodParameter);
+            var addSecondsArgumentExpression = addSecondsInvocationExpression?.FirstArgumentExpression();
+            var addSecondsArgumentVariable = addSecondsArgumentExpression is null ? null : gigasecondClass?.ArgumentVariable(addSecondsArgumentExpression);
+            var addSecondsArgumentVariableFieldDeclaration = addSecondsArgumentVariable?.FieldDeclaration();
+            var addSecondsArgumentVariableLocalDeclarationStatement = addSecondsArgumentVariable?.LocalDeclarationStatement();
             var addSecondsArgumentType = ArgumentDefinedAs(addSecondsArgumentVariableFieldDeclaration, addSecondsArgumentVariableLocalDeclarationStatement, addSecondsArgumentExpression);
             var addSecondsArgumentValueExpression = ArgumentValueExpression(addSecondsArgumentType, addSecondsArgumentExpression, addSecondsArgumentVariable);
-            var addMethodReturnType = ReturnedAs(addSecondsInvocationExpression, addMethodReturnedExpression, addMethodParameter);
-            var addSecondsArgumentValueType = addSecondsArgumentValueExpression.GigasecondValueType();
+            var addMethodReturnType = addSecondsInvocationExpression is null
+                                      || addMethodReturnedExpression is null
+                                      || addMethodParameter is null
+                ? ReturnType.Unknown
+                : ReturnedAs(addSecondsInvocationExpression, addMethodReturnedExpression, addMethodParameter);
+            var addSecondsArgumentValueType = addSecondsArgumentValueExpression?.GigasecondValueType();
             
-            return new GigasecondSolution(solution, addMethod, addMethodReturnType, addSecondsInvocationExpression, addSecondsArgumentVariableLocalDeclarationStatement, addSecondsArgumentVariableFieldDeclaration, addSecondsArgumentType, addSecondsArgumentValueType);
+            return new GigasecondSolution(solution, gigasecondClass, addMethod, addMethodReturnType, addSecondsInvocationExpression, addSecondsArgumentVariableLocalDeclarationStatement, addSecondsArgumentVariableFieldDeclaration, addSecondsArgumentType, addSecondsArgumentValueType);
         }
         
-        private static ClassDeclarationSyntax GigasecondClass(this ParsedSolution solution) =>
+        private static ClassDeclarationSyntax? GigasecondClass(this ParsedSolution solution) =>
             solution.SyntaxRoot.GetClass("Gigasecond");
         
-        private static MethodDeclarationSyntax AddMethod(this ClassDeclarationSyntax gigasecondClass) =>
+        private static MethodDeclarationSyntax? AddMethod(this ClassDeclarationSyntax gigasecondClass) =>
             gigasecondClass?.GetMethod("Add");
 
-        private static InvocationExpressionSyntax AddSecondsInvocationExpression(this MethodDeclarationSyntax addMethod, ParameterSyntax addMethodParameter) =>
+        private static InvocationExpressionSyntax AddSecondsInvocationExpression(this MethodDeclarationSyntax addMethod, ParameterSyntax? addMethodParameter) =>
             addMethod.DescendantNodes<InvocationExpressionSyntax>().FirstOrDefault(
                 invocationExpression =>
                     invocationExpression.Expression.IsEquivalentWhenNormalized(
                         SimpleMemberAccessExpression(
-                            IdentifierName(addMethodParameter),
+                            addMethodParameter is null ? IdentifierName("NotAddSeconds") : IdentifierName(addMethodParameter),
                             IdentifierName("AddSeconds"))));
 
         private static GigasecondValueType GigasecondValueType(this ExpressionSyntax valueExpression)

@@ -14,15 +14,15 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Syntax
             where TSyntaxNode : SyntaxNode =>
             syntaxNode.DescendantNodes().OfType<TSyntaxNode>();
 
-        public static MethodDeclarationSyntax GetClassMethod(this SyntaxNode syntaxNode, string className,
-            string methodName) => syntaxNode.GetClass(className).GetMethod(methodName);
+        public static MethodDeclarationSyntax? GetClassMethod(this SyntaxNode syntaxNode, string className,
+            string methodName) => syntaxNode?.GetClass(className)?.GetMethod(methodName);
 
-        public static ClassDeclarationSyntax GetClass(this SyntaxNode syntaxNode, string className) =>
+        public static ClassDeclarationSyntax? GetClass(this SyntaxNode syntaxNode, string className) =>
             syntaxNode?
                 .DescendantNodes<ClassDeclarationSyntax>()
                 .FirstOrDefault(syntax => syntax.Identifier.Text == className);
 
-        public static MethodDeclarationSyntax GetMethod(this SyntaxNode syntaxNode, string methodName) =>
+        public static MethodDeclarationSyntax? GetMethod(this SyntaxNode syntaxNode, string methodName) =>
             syntaxNode?
                 .DescendantNodes<MethodDeclarationSyntax>()
                 .FirstOrDefault(syntax => syntax.Identifier.Text == methodName);

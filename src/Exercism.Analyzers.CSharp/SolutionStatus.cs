@@ -5,6 +5,7 @@ namespace Exercism.Analyzers.CSharp
         ApproveAsOptimal,
         ApproveWithComment,
         DisapproveWithComment,
-        ReferToMentor
+        ReferToMentor,
+        None,
     }
 }

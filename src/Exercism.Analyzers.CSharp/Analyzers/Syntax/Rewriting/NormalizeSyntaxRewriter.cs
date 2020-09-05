@@ -5,7 +5,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Syntax.Rewriting
 {
     internal class NormalizeSyntaxRewriter : CSharpSyntaxRewriter
     {
-        public override SyntaxNode Visit(SyntaxNode node)
+        public override SyntaxNode? Visit(SyntaxNode? node)
         {
             if (node == null)
                 return null;

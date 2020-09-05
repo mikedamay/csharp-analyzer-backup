@@ -7,7 +7,7 @@ namespace Exercism.Analyzers.CSharp
 {
     internal static class SolutionParser
     {
-        public static ParsedSolution Parse(Solution solution)
+        public static ParsedSolution? Parse(Solution solution)
         {
             if (!File.Exists(solution.Paths.ImplementationFilePath))
             {

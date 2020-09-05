@@ -6,5 +6,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
         public const string UseScientificNotationNotMathPow = "csharp.gigasecond.use_1e9_not_math_pow";
         public const string UseScientificNotationOrDigitSeparators = "csharp.gigasecond.use_1e9_or_digit_separator";
         public const string DontCreateDateTime = "csharp.gigasecond.dont_create_datetime";
+        public const string MissingAddMethod = "csharp.gigasecond.missing_add_method";
+        public const string MissingGigasecondClass = "csharp.gigasecond.missing_gigasecond_class";
     }
 }

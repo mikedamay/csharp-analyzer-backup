@@ -7,7 +7,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Shared
 {
     internal static class SharedSyntax
     {
-        public static ArgumentType ArgumentDefinedAs(FieldDeclarationSyntax fieldDeclaration, LocalDeclarationStatementSyntax localDeclarationStatement, ExpressionSyntax expression)
+        public static ArgumentType ArgumentDefinedAs(FieldDeclarationSyntax? fieldDeclaration, LocalDeclarationStatementSyntax? localDeclarationStatement, ExpressionSyntax? expression)
         {
             if (fieldDeclaration != null)
                 return ArgumentType.Field;
@@ -24,7 +24,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Shared
         public static ReturnType ReturnedAs(ExpressionSyntax expression, ExpressionSyntax returnedExpression, ParameterSyntax parameter)
         {
             if (expression.AssignedToVariable(out var variableDeclarator))
-                return returnedExpression.IsEquivalentWhenNormalized(SharedSyntaxFactory.IdentifierName(variableDeclarator))
+                return variableDeclarator is null ? ReturnType.Unknown : returnedExpression.IsEquivalentWhenNormalized(SharedSyntaxFactory.IdentifierName(variableDeclarator))
                     ? ReturnType.VariableAssignment
                     : ReturnType.Unknown;
 
@@ -38,7 +38,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Shared
                 : ReturnType.Unknown;
         }
 
-        public static ExpressionSyntax ArgumentValueExpression(ArgumentType argumentType, ExpressionSyntax argumentExpression, VariableDeclaratorSyntax variableDeclarator)
+        public static ExpressionSyntax? ArgumentValueExpression(ArgumentType? argumentType, ExpressionSyntax? argumentExpression, VariableDeclaratorSyntax? variableDeclarator)
         {
             switch (argumentType)
             {
@@ -48,7 +48,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Shared
                     return argumentExpression;
                 case ArgumentType.Local:
                 case ArgumentType.Field:
-                    return variableDeclarator.Initializer.Value;
+                    return variableDeclarator?.Initializer?.Value;
                 default:
                     throw new ArgumentOutOfRangeException();
             }

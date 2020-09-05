@@ -10,11 +10,17 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
 
         private static SolutionAnalysis Analyze(GigasecondSolution gigasecondSolution) =>
             gigasecondSolution.DisapproveWhenInvalid() ??
-            gigasecondSolution.ApproveWhenValid() ??
-            gigasecondSolution.ReferToMentor();
+                gigasecondSolution.ApproveWhenValid() ??
+                gigasecondSolution.ReferToMentor();
 
-        private static SolutionAnalysis DisapproveWhenInvalid(this GigasecondSolution gigasecondSolution)
+        private static SolutionAnalysis? DisapproveWhenInvalid(this GigasecondSolution gigasecondSolution)
         {
+            if (!gigasecondSolution.HasGigasecondClass())
+                return gigasecondSolution.DisapproveWithComment(MissingGigasecondClass);
+
+            if (!gigasecondSolution.HasAddMethod())
+                return gigasecondSolution.DisapproveWithComment(MissingAddMethod);
+
             if (gigasecondSolution.CreatesNewDatetime())
                 return gigasecondSolution.DisapproveWithComment(DontCreateDateTime);
             
@@ -24,7 +30,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
             return null;
         }
 
-        private static SolutionAnalysis ApproveWhenValid(this GigasecondSolution gigasecondSolution)
+        private static SolutionAnalysis? ApproveWhenValid(this GigasecondSolution gigasecondSolution)
         {
             if (gigasecondSolution.UsesMathPow())
                 return gigasecondSolution.ApproveWithComment(UseScientificNotationNotMathPow);
@@ -54,7 +60,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
             if (gigasecondSolution.UsesConstField())
                 return gigasecondSolution.ApproveWithComment(UsePrivateVisibility);
             
-            if (gigasecondSolution.UsesField())
+            if (gigasecondSolution.UsesField() ?? false)
                 return gigasecondSolution.ApproveWithComment(UseConstant);
             
             return gigasecondSolution.UsesExpressionBody()

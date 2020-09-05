@@ -1,8 +1,6 @@
 using Exercism.Analyzers.CSharp.Analyzers;
 using Exercism.Analyzers.CSharp.Analyzers.Gigasecond;
-using Exercism.Analyzers.CSharp.Analyzers.Leap;
 using Exercism.Analyzers.CSharp.Analyzers.Shared;
-using Exercism.Analyzers.CSharp.Analyzers.TwoFer;
 using Humanizer;
 using Serilog;
 
@@ -32,19 +30,19 @@ namespace Exercism.Analyzers.CSharp
             AnalyzeSharesRules(parsedSolution) ??
             AnalyzeExerciseSpecificRules(parsedSolution);
 
-        private static SolutionAnalysis AnalyzeSharesRules(ParsedSolution parsedSolution) =>
+        private static SolutionAnalysis? AnalyzeSharesRules(ParsedSolution parsedSolution) =>
             SharedAnalyzer.Analyze(parsedSolution);
 
         private static SolutionAnalysis AnalyzeExerciseSpecificRules(ParsedSolution parsedSolution)
         {
             switch (parsedSolution.Solution.Slug)
             {
-                case Exercises.TwoFer:
-                    return TwoFerAnalyzer.Analyze(parsedSolution);
+                // case Exercises.TwoFer:
+                //     return TwoFerAnalyzer.Analyze(parsedSolution);
                 case Exercises.Gigasecond:
                     return GigasecondAnalyzer.Analyze(parsedSolution);
-                case Exercises.Leap:
-                    return LeapAnalyzer.Analyze(parsedSolution);
+                // case Exercises.Leap:
+                //     return LeapAnalyzer.Analyze(parsedSolution);
                 default:
                     return UnsupportedExerciseAnalyzer.Analyze(parsedSolution);
             }
