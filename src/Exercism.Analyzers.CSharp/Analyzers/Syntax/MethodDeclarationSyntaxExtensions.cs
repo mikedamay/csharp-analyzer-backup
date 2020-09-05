@@ -23,7 +23,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Syntax
         public static bool IsExpressionBody(this MethodDeclarationSyntax methodDeclaration) =>
             methodDeclaration.ExpressionBody != null;
 
-        public static ParameterSyntax FirstParameter(this MethodDeclarationSyntax methodDeclaration) =>
+        public static ParameterSyntax? FirstParameter(this MethodDeclarationSyntax methodDeclaration) =>
             methodDeclaration?.ParameterList.Parameters[0];
     }
 }

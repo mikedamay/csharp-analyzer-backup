@@ -6,22 +6,22 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
 {
     internal class GigasecondSolution : ParsedSolution
     {
-        private readonly MethodDeclarationSyntax _addMethod;
-        private readonly InvocationExpressionSyntax _addSecondsInvocationExpression;
-        private readonly LocalDeclarationStatementSyntax _addSecondsLocalArgument;
-        private readonly FieldDeclarationSyntax _addSecondsFieldArgument;
+        private readonly MethodDeclarationSyntax? _addMethod;
+        private readonly InvocationExpressionSyntax? _addSecondsInvocationExpression;
+        private readonly LocalDeclarationStatementSyntax? _addSecondsLocalArgument;
+        private readonly FieldDeclarationSyntax? _addSecondsFieldArgument;
         private readonly ArgumentType _addSecondsArgumentType;
-        private readonly GigasecondValueType _gigasecondValueType;
+        private readonly GigasecondValueType? _gigasecondValueType;
         private readonly ReturnType _addMethodReturnType;
         
         public GigasecondSolution(ParsedSolution solution,
-            MethodDeclarationSyntax addMethod,
+            MethodDeclarationSyntax? addMethod,
             ReturnType addMethodReturnType,
-            InvocationExpressionSyntax addSecondsInvocationExpression,
-            LocalDeclarationStatementSyntax addSecondsLocalArgument,
-            FieldDeclarationSyntax addSecondsFieldArgument,
+            InvocationExpressionSyntax? addSecondsInvocationExpression,
+            LocalDeclarationStatementSyntax? addSecondsLocalArgument,
+            FieldDeclarationSyntax? addSecondsFieldArgument,
             ArgumentType addSecondsArgumentType,
-            GigasecondValueType gigasecondValueType) : base(solution.Solution, solution.SyntaxRoot)
+            GigasecondValueType? gigasecondValueType) : base(solution.Solution, solution.SyntaxRoot)
         {
             _addMethod = addMethod;
             _addSecondsInvocationExpression = addSecondsInvocationExpression;
@@ -45,32 +45,29 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Gigasecond
             _gigasecondValueType == GigasecondValueType.MathPow;
 
         public bool UsesExpressionBody() =>
-            _addMethod.IsExpressionBody();
+            _addMethod?.IsExpressionBody() ?? false;
 
         public bool UsesConstField() =>
-            UsesField() &&
-            _addSecondsFieldArgument.IsConst();
+            (UsesField() ?? false) && (_addSecondsFieldArgument?.IsConst() ?? false); 
 
         public bool UsesPrivateConstField() =>
             UsesPrivateField() &&
             UsesConstField();
 
         private bool UsesPrivateField() =>
-            UsesField() &&
-            _addSecondsFieldArgument.IsPrivate();
+            (UsesField() ?? false) && (_addSecondsFieldArgument?.IsPrivate() ?? false); 
 
-        public bool UsesField() =>
+        public bool? UsesField() =>
             _addSecondsArgumentType == ArgumentType.Field;
 
         public bool DoesNotUseAddSeconds() =>
             _addSecondsInvocationExpression == null;
 
         public bool CreatesNewDatetime() =>
-            _addMethod.CreatesObjectOfType<DateTime>();
+            _addMethod?.CreatesObjectOfType<DateTime>() ?? false;
 
         public bool UsesLocalConstVariable() =>
-            UsesLocalVariable() &&
-            _addSecondsLocalArgument.IsConst;
+            UsesLocalVariable() && (_addSecondsLocalArgument?.IsConst ?? false); 
 
         public bool UsesLocalVariable() =>
             _addSecondsArgumentType == ArgumentType.Local;

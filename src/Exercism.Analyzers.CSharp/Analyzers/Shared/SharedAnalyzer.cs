@@ -23,7 +23,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Shared
             if (parsedSolution.WritesToConsole())
                 return parsedSolution.DisapproveWithComment(SharedComments.DontWriteToConsole);
 
-            return null;
+            return parsedSolution.NoComment();
         }
 
         private static bool HasCompileErrors(this ParsedSolution parsedSolution) =>
@@ -44,5 +44,11 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Shared
                 SimpleMemberAccessExpression(
                     IdentifierName("Console"),
                     IdentifierName("Write")));
+
+        private static bool HasComments(this ParsedSolution parsedSolution) =>
+            parsedSolution.HasCompileErrors()
+            || parsedSolution.HasMainMethod()
+            || parsedSolution.ThrowsNotImplementedException()
+            || parsedSolution.WritesToConsole();
     }
 }
