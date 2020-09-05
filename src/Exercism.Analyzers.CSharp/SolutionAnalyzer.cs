@@ -1,5 +1,6 @@
 using Exercism.Analyzers.CSharp.Analyzers;
 using Exercism.Analyzers.CSharp.Analyzers.Gigasecond;
+using Exercism.Analyzers.CSharp.Analyzers.Leap;
 using Exercism.Analyzers.CSharp.Analyzers.Shared;
 using Humanizer;
 using Serilog;
@@ -41,8 +42,8 @@ namespace Exercism.Analyzers.CSharp
                 //     return TwoFerAnalyzer.Analyze(parsedSolution);
                 case Exercises.Gigasecond:
                     return GigasecondAnalyzer.Analyze(parsedSolution);
-                // case Exercises.Leap:
-                //     return LeapAnalyzer.Analyze(parsedSolution);
+                case Exercises.Leap:
+                    return LeapAnalyzer.Analyze(parsedSolution);
                 default:
                     return UnsupportedExerciseAnalyzer.Analyze(parsedSolution);
             }

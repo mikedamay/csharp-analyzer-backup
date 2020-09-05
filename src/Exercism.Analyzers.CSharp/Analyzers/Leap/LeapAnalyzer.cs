@@ -9,6 +9,9 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Leap
 
         private static SolutionAnalysis Analyze(LeapSolution leapSolution)
         {
+            if (!leapSolution.HasLeapClassAndIsLeapYearMethod())
+                return leapSolution.DisapproveWithComment(LeapComments.MissingLeapClassOrIsLeapYearMethod);
+
             if (leapSolution.UsesTooManyChecks())
                 return leapSolution.DisapproveWithComment(LeapComments.UseMinimumNumberOfChecks);
             

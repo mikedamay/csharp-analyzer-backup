@@ -12,10 +12,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="Solutions\Leap\MinimumNumberOfChecks\ExplicitParentheses\BlockBody\Leap.cs" />
+    <Compile Include="Solutions\Leap\MinimumNumberOfChecks\ExplicitParentheses\ExpressionBody\Leap.cs" />
+    <Compile Include="Solutions\Leap\MinimumNumberOfChecks\NoParentheses\BlockBody\Leap.cs" />
+    <Compile Include="Solutions\Leap\MinimumNumberOfChecks\NoParentheses\ExpressionBody\Leap.cs" />
+    <Compile Include="Solutions\Leap\MinimumNumberOfChecks\UnneededParentheses\BlockBody\Leap.cs" />
+    <Compile Include="Solutions\Leap\MinimumNumberOfChecks\UnneededParentheses\ExpressionBody\Leap.cs" />
+    <Compile Include="Solutions\Leap\TooManyChecks\BlockBody\Leap.cs" />
+    <Compile Include="Solutions\Leap\TooManyChecks\ExpressionBody\Leap.cs" />
     <SolutionFiles Include="Solutions\**" />
     <Compile Remove="@(SolutionFiles)" />
-    <SolutionFiles Remove="Solutions\Leap\**" />
-    <Compile Remove="Solutions\Leap\**" />
     <SolutionFiles Remove="Solutions\Missing\**" />
     <Compile Remove="Solutions\Missing\**" />
     <SolutionFiles Remove="Solutions\TwoFer\**" />
@@ -31,13 +37,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Remove="Solutions\Leap\**" />
     <EmbeddedResource Remove="Solutions\Missing\**" />
     <EmbeddedResource Remove="Solutions\TwoFer\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Solutions\Leap\**" />
     <None Remove="Solutions\Missing\**" />
     <None Remove="Solutions\TwoFer\**" />
   </ItemGroup>

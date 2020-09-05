@@ -20,16 +20,7 @@
     </ItemGroup>
     
     <ItemGroup>
-      <Compile Remove="Analyzers\Leap\LeapAnalyzer.cs" />
-      <Compile Remove="Analyzers\Leap\LeapComments.cs" />
-      <Compile Remove="Analyzers\Leap\LeapSolution.cs" />
-      <Compile Remove="Analyzers\Leap\LeapSyntax.cs" />
-      <Compile Remove="Analyzers\Leap\LeapSyntaxFactory.cs" />
       <Compile Remove="Analyzers\TwoFer\**" />
-    </ItemGroup>
-    
-    <ItemGroup>
-      <Folder Include="Analyzers\Leap" />
     </ItemGroup>
     
     <ItemGroup>
