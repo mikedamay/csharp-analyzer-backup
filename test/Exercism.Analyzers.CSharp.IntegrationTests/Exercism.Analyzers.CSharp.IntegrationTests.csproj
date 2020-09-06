@@ -20,12 +20,96 @@
     <Compile Include="Solutions\Leap\MinimumNumberOfChecks\UnneededParentheses\ExpressionBody\Leap.cs" />
     <Compile Include="Solutions\Leap\TooManyChecks\BlockBody\Leap.cs" />
     <Compile Include="Solutions\Leap\TooManyChecks\ExpressionBody\Leap.cs" />
+    <Compile Include="Solutions\Missing\NoAnalyzerImplemented\Missing.cs" />
+    <Compile Include="Solutions\TwoFer\Concatenation\Default\Block\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Concatenation\Default\Expression\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Concatenation\IsNullOrEmpty\Block\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Concatenation\IsNullOrEmpty\Expression\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Concatenation\IsNullOrEmpty\If\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Concatenation\IsNullOrEmpty\ParameterIf\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Concatenation\IsNullOrEmpty\ParameterTernary\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Concatenation\IsNullOrEmpty\Variable\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Concatenation\IsNullOrWhiteSpace\Block\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Concatenation\IsNullOrWhiteSpace\Expression\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Concatenation\IsNullOrWhiteSpace\If\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Concatenation\IsNullOrWhiteSpace\ParameterIf\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Concatenation\IsNullOrWhiteSpace\ParameterTernary\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Concatenation\IsNullOrWhiteSpace\Variable\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Concatenation\NullCoalescing\Block\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Concatenation\NullCoalescing\Expression\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Concatenation\NullCoalescing\Parameter\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Concatenation\NullCoalescing\Variable\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Concatenation\Null\Block\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Concatenation\Null\Expression\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Concatenation\Null\If\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Concatenation\Null\ParameterIf\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Concatenation\Null\ParameterTernary\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Concatenation\Null\Variable\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Concat\BlockFullyQualified\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Concat\Block\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Concat\ExpressionFullyQualified\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Concat\Expression\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Format\Default\Block\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Format\Default\Expression\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Format\IsNullOrEmpty\Block\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Format\IsNullOrEmpty\Expression\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Format\IsNullOrEmpty\If\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Format\IsNullOrEmpty\ParameterIf\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Format\IsNullOrEmpty\ParameterTernary\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Format\IsNullOrEmpty\Variable\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Format\IsNullOrWhiteSpace\Block\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Format\IsNullOrWhiteSpace\Expression\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Format\IsNullOrWhiteSpace\If\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Format\IsNullOrWhiteSpace\ParameterIf\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Format\IsNullOrWhiteSpace\ParameterTernary\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Format\IsNullOrWhiteSpace\Variable\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Format\NullCoalescing\BlockFullyQualified\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Format\NullCoalescing\Block\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Format\NullCoalescing\ExpressionFullQualified\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Format\NullCoalescing\Expression\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Format\NullCoalescing\Variable\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Format\Null\BlockWithNegativeCheck\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Format\Null\Block\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Format\Null\Expression\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Format\Null\If\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Format\Null\ParameterIf\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Format\Null\ParameterTernary\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Format\Null\Variable\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Interpolation\Default\BlockWithChangedParameterName\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Interpolation\Default\Block\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Interpolation\Default\Expression\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Interpolation\IsNullOrEmpty\Block\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Interpolation\IsNullOrEmpty\Expression\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Interpolation\IsNullOrEmpty\If\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Interpolation\IsNullOrEmpty\ParameterIf\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Interpolation\IsNullOrEmpty\ParameterTernary\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Interpolation\IsNullOrEmpty\Variable\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Interpolation\IsNullOrWhiteSpace\Block\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Interpolation\IsNullOrWhiteSpace\Expression\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Interpolation\IsNullOrWhiteSpace\If\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Interpolation\IsNullOrWhiteSpace\ParameterIf\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Interpolation\IsNullOrWhiteSpace\ParameterTernary\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Interpolation\IsNullOrWhiteSpace\Variable\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Interpolation\NullCoalescing\Block\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Interpolation\NullCoalescing\Expression\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Interpolation\NullCoalescing\Variable\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Interpolation\Null\BlockWithRedundantParentheses\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Interpolation\Null\Block\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Interpolation\Null\Expression\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Interpolation\Null\If\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Interpolation\Null\ParameterIf\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Interpolation\Null\ParameterTernary\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Interpolation\Null\VariableWithRedundantParentheses\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Interpolation\Null\Variable\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Invalid\MissingSpeakMethod\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Invalid\UsingOverloads\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Join\IsNullOrEmpty\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Join\IsNullOrWhiteSpace\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Replace\IsNullOrEmpty\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Replace\IsNullOrWhiteSpace\TwoFer.cs" />
+    <Compile Include="Solutions\TwoFer\Replace\Null\TwoFer.cs" />
     <SolutionFiles Include="Solutions\**" />
     <Compile Remove="@(SolutionFiles)" />
-    <SolutionFiles Remove="Solutions\Missing\**" />
-    <Compile Remove="Solutions\Missing\**" />
-    <SolutionFiles Remove="Solutions\TwoFer\**" />
-    <Compile Remove="Solutions\TwoFer\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -34,16 +118,6 @@
 
   <ItemGroup>
     <Folder Include="Solutions\Gigasecond\Invalid\VoidAdd" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Remove="Solutions\Missing\**" />
-    <EmbeddedResource Remove="Solutions\TwoFer\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="Solutions\Missing\**" />
-    <None Remove="Solutions\TwoFer\**" />
   </ItemGroup>
   
   <Target Name="CopySolutions" AfterTargets="Build">

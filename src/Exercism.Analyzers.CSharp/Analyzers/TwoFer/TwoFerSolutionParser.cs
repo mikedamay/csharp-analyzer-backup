@@ -13,7 +13,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
         public static TwoFerSolution Parse(ParsedSolution solution)
         {
             var twoFerClass = solution.SyntaxRoot.GetClass("TwoFer");
-            var speakMethod = twoFerClass.GetMethod("Speak");
+            var speakMethod = twoFerClass?.GetMethod("Speak");
             var speakMethodParameter = speakMethod?.ParameterList.Parameters.FirstOrDefault();
             var speakMethodReturnedExpression = speakMethod?.ReturnedExpression();
             var speakMethodVariable = speakMethod?.AssignedVariable();
@@ -22,33 +22,34 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
             return new TwoFerSolution(solution, twoFerClass, speakMethod, speakMethodParameter, speakMethodReturnedExpression, speakMethodVariable, twoFerError);
         }
 
-        private static TwoFerError ToTwoFerError(ClassDeclarationSyntax twoFerClass, MethodDeclarationSyntax speakMethod, ParameterSyntax speakMethodParameter)
+        private static TwoFerError ToTwoFerError(ClassDeclarationSyntax? twoFerClass, MethodDeclarationSyntax? speakMethod, ParameterSyntax? speakMethodParameter)
         {
-            if (twoFerClass.UsesOverloads())
+            
+            if (twoFerClass?.UsesOverloads() ?? false)
                 return TwoFerError.UsesOverloads;
 
-            if (speakMethod.MissingSpeakMethod())
+            if (speakMethod?.MissingSpeakMethod() ?? true)
                 return TwoFerError.MissingSpeakMethod;
                 
-            if (speakMethod.InvalidSpeakMethod(speakMethodParameter))
+            if (speakMethod?.InvalidSpeakMethod(speakMethodParameter) ?? false)
                 return TwoFerError.InvalidSpeakMethod;
 
-            if (speakMethod.UsesDuplicateString())
+            if (speakMethod?.UsesDuplicateString() ?? false)
                 return TwoFerError.UsesDuplicateString;
 
-            if (speakMethod.NoDefaultValue())
+            if (speakMethod?.NoDefaultValue() ?? false)
                 return TwoFerError.NoDefaultValue;
 
-            if (speakMethodParameter.UsesInvalidDefaultValue())
+            if (speakMethodParameter?.UsesInvalidDefaultValue() ?? false)
                 return TwoFerError.InvalidDefaultValue;
 
-            if (speakMethod.UsesStringReplace())
+            if (speakMethod?.UsesStringReplace() ?? false)
                 return TwoFerError.UsesStringReplace;
 
-            if (speakMethod.UsesStringJoin())
+            if (speakMethod?.UsesStringJoin() ?? false)
                 return TwoFerError.UsesStringJoin;
 
-            if (speakMethod.UsesStringConcat())
+            if (speakMethod?.UsesStringConcat() ?? false)
                 return TwoFerError.UsesStringConcat;
 
             return TwoFerError.None;
@@ -57,10 +58,10 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
         private static bool MissingSpeakMethod(this MethodDeclarationSyntax speakMethod) =>
             speakMethod == null;
 
-        private static bool InvalidSpeakMethod(this MethodDeclarationSyntax speakMethod, ParameterSyntax speakMethodParameter) =>
+        private static bool InvalidSpeakMethod(this MethodDeclarationSyntax speakMethod, ParameterSyntax? speakMethodParameter) =>
             speakMethod.ParameterList.Parameters.Count != 1 ||
-            !speakMethodParameter.Type.IsEquivalentWhenNormalized(
-                PredefinedType(Token(SyntaxKind.StringKeyword)));
+            !(speakMethodParameter?.Type.IsEquivalentWhenNormalized(
+                PredefinedType(Token(SyntaxKind.StringKeyword))) ?? false);
 
         private static bool UsesOverloads(this ClassDeclarationSyntax twoFerClass) =>
             twoFerClass.GetMethods("Speak").Count() > 1;

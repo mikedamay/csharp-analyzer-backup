@@ -6,20 +6,20 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
 {
     internal class TwoFerSolution : ParsedSolution
     {
-        private readonly TwoFerError _twoFerError;
-        public ClassDeclarationSyntax TwoFerClass { get; }
-        public MethodDeclarationSyntax SpeakMethod { get; }
-        public ParameterSyntax InputMethodParameter { get; }
-        public ExpressionSyntax TwoFerExpression { get; }
-        public VariableDeclaratorSyntax TwoFerVariable { get; }
+        private readonly TwoFerError? _twoFerError;
+        public ClassDeclarationSyntax? TwoFerClass { get; }
+        public MethodDeclarationSyntax? SpeakMethod { get; }
+        public ParameterSyntax? InputMethodParameter { get; }
+        public ExpressionSyntax? TwoFerExpression { get; }
+        public VariableDeclaratorSyntax? TwoFerVariable { get; }
     
         public TwoFerSolution(ParsedSolution solution,
-            ClassDeclarationSyntax twoFerClass,
-            MethodDeclarationSyntax speakMethod,
-            ParameterSyntax speakMethodParameter,
-            ExpressionSyntax twoFerExpression,
-            VariableDeclaratorSyntax twoFerVariableDeclarator,
-            TwoFerError twoFerError) : base(solution.Solution, solution.SyntaxRoot)
+            ClassDeclarationSyntax? twoFerClass,
+            MethodDeclarationSyntax? speakMethod,
+            ParameterSyntax? speakMethodParameter,
+            ExpressionSyntax? twoFerExpression,
+            VariableDeclaratorSyntax? twoFerVariableDeclarator,
+            TwoFerError? twoFerError) : base(solution.Solution, solution.SyntaxRoot)
         {
             _twoFerError = twoFerError;
             TwoFerClass = twoFerClass;
@@ -29,7 +29,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
             TwoFerVariable = twoFerVariableDeclarator;
         }
 
-        public bool Returns(SyntaxNode returned) => TwoFerExpression.IsEquivalentWhenNormalized(returned);
+        public bool Returns(SyntaxNode returned) => TwoFerExpression?.IsEquivalentWhenNormalized(returned) ?? false;
 
         public bool MissingSpeakMethod =>
             _twoFerError == TwoFerError.MissingSpeakMethod;

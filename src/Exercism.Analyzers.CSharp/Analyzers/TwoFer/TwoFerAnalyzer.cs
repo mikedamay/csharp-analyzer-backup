@@ -13,7 +13,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
             twoFerSolution.ApproveWhenValid() ??
             twoFerSolution.ReferToMentor();
 
-        private static SolutionAnalysis DisapproveWhenInvalid(this TwoFerSolution twoFerSolution)
+        private static SolutionAnalysis? DisapproveWhenInvalid(this TwoFerSolution twoFerSolution)
         {
             if (twoFerSolution.UsesOverloads)
                 return twoFerSolution.DisapproveWithComment(UseSingleFormattedStringNotMultiple);
@@ -43,12 +43,12 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
             return null;
         }
 
-        private static SolutionAnalysis ApproveWhenValid(this TwoFerSolution twoFerSolution) =>
+        private static SolutionAnalysis? ApproveWhenValid(this TwoFerSolution twoFerSolution) =>
             twoFerSolution.AnalyzeSingleLine() ??
             twoFerSolution.AnalyzeParameterAssignment() ??
             twoFerSolution.AnalyzeVariableAssignment();
 
-        private static SolutionAnalysis AnalyzeSingleLine(this TwoFerSolution twoFerSolution)
+        private static SolutionAnalysis? AnalyzeSingleLine(this TwoFerSolution twoFerSolution)
         {
             if (!twoFerSolution.UsesSingleLine())
                 return null;
@@ -79,7 +79,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
             return null;
         }
 
-        private static SolutionAnalysis AnalyzeParameterAssignment(this TwoFerSolution twoFerSolution)
+        private static SolutionAnalysis? AnalyzeParameterAssignment(this TwoFerSolution twoFerSolution)
         {
             if (!twoFerSolution.AssignsToParameter())
                 return null;
@@ -114,7 +114,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
             return null;
         }
 
-        private static SolutionAnalysis AnalyzeVariableAssignment(this TwoFerSolution twoFerSolution)
+        private static SolutionAnalysis? AnalyzeVariableAssignment(this TwoFerSolution twoFerSolution)
         {
             if (!twoFerSolution.AssignsVariable())
                 return null;

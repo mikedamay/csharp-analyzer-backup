@@ -30,10 +30,10 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
                 NullLiteralExpression());
 
         public static IdentifierNameSyntax TwoFerParameterIdentifierName(TwoFerSolution twoFerSolution) =>
-            IdentifierName(twoFerSolution.InputMethodParameter.Identifier);
+            IdentifierName(twoFerSolution.InputMethodParameter?.Identifier ?? Identifier(string.Empty));
 
         public static IdentifierNameSyntax TwoFerVariableIdentifierName(TwoFerSolution twoFerSolution) =>
-            IdentifierName(twoFerSolution.TwoFerVariable.Identifier);
+            IdentifierName(twoFerSolution.TwoFerVariable?.Identifier ?? Identifier(string.Empty));
 
         public static BinaryExpressionSyntax TwoFerCoalesceExpression(IdentifierNameSyntax identifierName) =>
             CoalesceExpression(
@@ -60,9 +60,9 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
         public static ConditionalExpressionSyntax TwoFerConditionalExpressionWithNullCheck(TwoFerSolution twoFerSolution) =>
             TwoFerConditionalExpression(
                 EqualsExpression(
-                    IdentifierName(twoFerSolution.InputMethodParameter.Identifier),
+                    IdentifierName(twoFerSolution.InputMethodParameter?.Identifier ?? Identifier(string.Empty)),
                     NullLiteralExpression()),
-                IdentifierName(twoFerSolution.InputMethodParameter.Identifier));
+                IdentifierName(twoFerSolution.InputMethodParameter?.Identifier ?? Identifier(string.Empty)));
 
         public static BinaryExpressionSyntax TwoFerStringConcatenationExpression(ExpressionSyntax nameExpression) =>
             AddExpression(

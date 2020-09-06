@@ -1,4 +1,7 @@
 using System.Linq;
+using System.Reflection.Metadata;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using static Exercism.Analyzers.CSharp.Analyzers.Shared.SharedSyntaxFactory;
 
@@ -6,9 +9,9 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Syntax
 {
     internal static class MethodDeclarationSyntaxExtensions
     {   
-        public static bool AssignsToParameter(this MethodDeclarationSyntax methodDeclaration, ParameterSyntax parameter) =>
-            methodDeclaration.AssignsToIdentifier(IdentifierName(parameter));
-
+        public static bool AssignsToParameter(this MethodDeclarationSyntax methodDeclaration, ParameterSyntax? parameter) =>
+            methodDeclaration.AssignsToIdentifier(IdentifierName(parameter ?? SyntaxFactory.Parameter(new SyntaxToken())));
+ 
         public static bool SingleLine(this MethodDeclarationSyntax methodDeclaration) =>
             methodDeclaration.ExpressionBody != null ||
             methodDeclaration.Body.Statements.Count == 1;

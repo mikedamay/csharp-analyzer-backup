@@ -12,13 +12,13 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
     internal static class TwoFerSyntax
     {
         public static bool AssignsToParameter(this TwoFerSolution twoFerSolution) =>
-            twoFerSolution.SpeakMethod.AssignsToParameter(twoFerSolution.InputMethodParameter);
+            twoFerSolution.SpeakMethod?.AssignsToParameter(twoFerSolution?.InputMethodParameter) ?? false;
 
         public static bool UsesSingleLine(this TwoFerSolution twoFerSolution) =>
-            twoFerSolution.SpeakMethod.SingleLine();
+            twoFerSolution.SpeakMethod?.SingleLine() ?? false;
 
         public static bool UsesExpressionBody(this TwoFerSolution twoFerSolution) =>
-            twoFerSolution.SpeakMethod.IsExpressionBody();
+            twoFerSolution.SpeakMethod?.IsExpressionBody() ?? false;
 
         public static bool ReturnsStringConcatenation(this TwoFerSolution twoFerSolution) =>
             twoFerSolution.ReturnsStringConcatenationWithDefaultValue() ||
@@ -195,10 +195,10 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
                     TwoFerParameterIdentifierName(twoFerSolution)));
 
         private static bool ParameterAssignedUsingStatement(this TwoFerSolution twoFerSolution, SyntaxNode statement) =>
-            twoFerSolution.AssignmentStatement().IsEquivalentWhenNormalized(statement);
+            twoFerSolution.AssignmentStatement()?.IsEquivalentWhenNormalized(statement) ?? false;
 
-        private static StatementSyntax AssignmentStatement(this TwoFerSolution twoFerSolution) =>
-            twoFerSolution.SpeakMethod.Body.Statements[0];
+        private static StatementSyntax? AssignmentStatement(this TwoFerSolution twoFerSolution) =>
+            twoFerSolution.SpeakMethod?.Body?.Statements[0];
 
         public static bool AssignsVariable(this TwoFerSolution twoFerSolution) =>
             twoFerSolution.TwoFerVariable != null;
@@ -227,8 +227,8 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
                 TwoFerParameterIsNullOrWhiteSpaceConditionalExpression(twoFerSolution));
 
         private static bool AssignsVariableUsingExpression(this TwoFerSolution twoFerSolution, ExpressionSyntax initializer) =>
-            twoFerSolution.TwoFerVariable.Initializer.IsEquivalentWhenNormalized(
-                EqualsValueClause(initializer));
+            twoFerSolution.TwoFerVariable?.Initializer?.IsEquivalentWhenNormalized(
+                EqualsValueClause(initializer)) ?? false;
 
         public static bool ReturnsStringInterpolationWithVariable(this TwoFerSolution twoFerSolution) =>
             twoFerSolution.Returns(
@@ -245,7 +245,7 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
                 TwoFerStringFormatInvocationExpression(
                     TwoFerVariableIdentifierName(twoFerSolution)));
 
-        public static VariableDeclaratorSyntax AssignedVariable(this MethodDeclarationSyntax speakMethod)
+        public static VariableDeclaratorSyntax? AssignedVariable(this MethodDeclarationSyntax speakMethod)
         {
             if (speakMethod == null ||
                 speakMethod.Body == null ||

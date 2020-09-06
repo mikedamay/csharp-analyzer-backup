@@ -12,5 +12,6 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
         public const string UseNullCoalescingOperatorNotIsNullOrWhiteSpaceCheck = "csharp.two-fer.use_null_coalescing_operator_not_is_null_or_white_space";
         public const string UseDefaultValue = "csharp.two-fer.use_default_value";
         public const string InvalidDefaultValue = "csharp.two-fer.invalid_default_value";
+        public const string MissingSpeakMethod = "csharp.two-fer.missing_speak_method";
     }
 }
