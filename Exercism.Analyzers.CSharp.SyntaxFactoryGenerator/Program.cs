@@ -39,11 +39,11 @@ namespace Exercism.Analyzers.CSharp.SyntaxFactoryGenerator
             sb.AppendLine("namespace Exercism.Analyzers.CSharp.Analyzers");
             sb.AppendLine("{");
             sb.AppendLine();
-            sb.AppendLine("public static class NullSafeSyntaxFactory");
+            sb.AppendLine("public static partial class NullSafeSyntaxFactory");
             sb.AppendLine("{");
             foreach (var method in roslynSyntaxFactoryMethods)
             {
-                if (method.Name == "Whitespace" || method.GetCustomAttributes().Any(a => a is ObsoleteAttribute))
+                if (method.GetCustomAttributes().Any(a => a is ObsoleteAttribute))
                 {
                     continue;
                 }
@@ -78,10 +78,22 @@ namespace Exercism.Analyzers.CSharp.SyntaxFactoryGenerator
 
             sb.AppendLine();
             sb.AppendLine("\t{");
+            sb.Append("\t\tif (AnyNull(");
+            AddArgumentNames(sb, method);
+            sb.Append(")) return null;");
+            sb.AppendLine();
             sb.Append("\t\t");
             sb.Append($"return SyntaxFactory.{method.Name}");
             AddGenericArguments(sb, method);
             sb.Append("(");
+            AddArgumentNames(sb, method);
+            sb.AppendLine(");");
+            sb.AppendLine("\t}");
+            sb.AppendLine();
+        }
+
+        private static void AddArgumentNames(StringBuilder sb, MethodInfo method)
+        {
             ParameterInfo firstArg;
             if ((firstArg = method.GetParameters().FirstOrDefault()) != null)
                 sb.Append($"@{firstArg.Name}");
@@ -90,17 +102,13 @@ namespace Exercism.Analyzers.CSharp.SyntaxFactoryGenerator
                 sb.Append(", ");
                 sb.Append($"@{arg.Name}");
             }
-
-            sb.AppendLine(");");
-            sb.AppendLine("\t}");
-            sb.AppendLine();
         }
 
         private static void AddSignature(StringBuilder sb, MethodInfo method)
         {
             sb.Append("\tpublic static ");
             sb.Append(method.ReturnType.PrettyTypeName());
-            sb.Append(" ");
+            sb.Append("? ");
             sb.Append(method.Name);
             AddGenericArguments(sb, method);
 
