@@ -32,10 +32,10 @@ namespace Exercism.Analyzers.CSharp.Analyzers.Syntax
                 .DescendantNodes<MethodDeclarationSyntax>()
                 .Where(syntax => syntax.Identifier.Text == methodName) ?? Enumerable.Empty<MethodDeclarationSyntax>();
 
-        public static bool AssignsToIdentifier(this SyntaxNode syntaxNode, IdentifierNameSyntax identifierName) =>
+        public static bool? AssignsToIdentifier(this SyntaxNode syntaxNode, IdentifierNameSyntax identifierName) =>
             syntaxNode?
                 .DescendantNodes<AssignmentExpressionSyntax>()
-                .Any(assignmentExpression => assignmentExpression.Left.IsEquivalentWhenNormalized(identifierName)) ?? false;
+                .Any(assignmentExpression => assignmentExpression.Left.IsEquivalentWhenNormalized(identifierName));
 
         public static bool CreatesObjectOfType<T>(this SyntaxNode syntaxNode) =>
             syntaxNode?

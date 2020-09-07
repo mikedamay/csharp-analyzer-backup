@@ -7,7 +7,7 @@ namespace Exercism.Analyzers.CSharp.IntegrationTests
         [Fact]
         public void Single()
         {
-            var testSolution = new TestSolution(slug : "two-fer", name : "Twofer", directory : "Solutions/TwoFer/Invalid/MissingSpeakMethod");
+            var testSolution = new TestSolution(slug : "two-fer", name : "Twofer", directory : "Solutions/TwoFer/Interpolation/IsNullOrEmpty/Block");
             SolutionShouldBeCorrectlyAnalyzed(testSolution);
         }
     }

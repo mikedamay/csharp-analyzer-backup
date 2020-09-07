@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using static Exercism.Analyzers.CSharp.Analyzers.Shared.SharedComments;
 using static Exercism.Analyzers.CSharp.Analyzers.TwoFer.TwoFerComments;
 
@@ -48,102 +49,198 @@ namespace Exercism.Analyzers.CSharp.Analyzers.TwoFer
             twoFerSolution.AnalyzeParameterAssignment() ??
             twoFerSolution.AnalyzeVariableAssignment();
 
+        public static bool? ReturnsStringInterpolationWithDefaultValueBest(TwoFerSolution twoFerSolution)
+        {
+            bool? returnsStringInterpolationWithDefaultValue =
+                twoFerSolution.ReturnsStringInterpolationWithDefaultValue();
+            bool? usesExpressionBody =
+                twoFerSolution.UsesExpressionBody();
+            if (returnsStringInterpolationWithDefaultValue is null || usesExpressionBody is null)
+                return null;
+            return returnsStringInterpolationWithDefaultValue.Value &&
+                   usesExpressionBody.Value;
+        }
+
+        public static bool? ReturnsStringInterpolationWithDefaultValueWorst(TwoFerSolution twoFerSolution)
+        {
+            bool? returnsStringInterpolationWithDefaultValue =
+                twoFerSolution.ReturnsStringInterpolationWithDefaultValue();
+            bool? usesExpressionBody =
+                twoFerSolution.UsesExpressionBody();
+            if (returnsStringInterpolationWithDefaultValue is null || usesExpressionBody is null)
+                return null;
+            return returnsStringInterpolationWithDefaultValue.Value &&
+                   !usesExpressionBody.Value;
+        }
+
+        public static bool? ReturnsStringInterpolationWithNullCoalescingOperatorBest(TwoFerSolution twoFerSolution)
+        {
+            bool? returnsStringInterpolationWithDefaultValue =
+                twoFerSolution.ReturnsStringInterpolationWithNullCoalescingOperator();
+            bool? usesExpressionBody =
+                twoFerSolution.UsesExpressionBody();
+            if (returnsStringInterpolationWithDefaultValue is null || usesExpressionBody is null)
+                return null;
+            return returnsStringInterpolationWithDefaultValue.Value &&
+                   usesExpressionBody.Value;
+        }
+
+        public static bool? ReturnsStringInterpolationWithNullCoalescingOperatorWorst(TwoFerSolution twoFerSolution)
+        {
+            bool? returnsStringInterpolationWithDefaultValue =
+                twoFerSolution.ReturnsStringInterpolationWithNullCoalescingOperator();
+            bool? usesExpressionBody =
+                twoFerSolution.UsesExpressionBody();
+            if (returnsStringInterpolationWithDefaultValue is null || usesExpressionBody is null)
+                return null;
+            return returnsStringInterpolationWithDefaultValue.Value &&
+                   !usesExpressionBody.Value;
+        }
+
+        public static List<ApprovalOperation> singleLine = new List<ApprovalOperation>
+        {
+            new ApprovalOperation(TwoFerSyntax.UsesSingleLine, MentorReaction.None, string.Empty, true),
+            new ApprovalOperation(TwoFerAnalyzer.ReturnsStringInterpolationWithDefaultValueBest,
+                MentorReaction.Approve, string.Empty),
+            new ApprovalOperation(TwoFerAnalyzer.ReturnsStringInterpolationWithDefaultValueWorst,
+                MentorReaction.ApproveWithComment, UseExpressionBodiedMember),
+            new ApprovalOperation(TwoFerAnalyzer.ReturnsStringInterpolationWithNullCoalescingOperatorBest,
+                MentorReaction.Approve, string.Empty),
+            new ApprovalOperation(TwoFerAnalyzer.ReturnsStringInterpolationWithNullCoalescingOperatorWorst,
+                MentorReaction.ApproveWithComment, UseExpressionBodiedMember),
+            new ApprovalOperation(TwoFerSyntax.ReturnsStringInterpolationWithIsNullOrEmptyCheck,
+                MentorReaction.ApproveWithComment,
+                 UseNullCoalescingOperatorNotTernaryOperatorWithIsNullOrEmptyCheck),
+            new ApprovalOperation(TwoFerSyntax.ReturnsStringInterpolationWithIsNullOrWhiteSpaceCheck,
+                MentorReaction.ApproveWithComment, UseNullCoalescingOperatorNotTernaryOperatorWithIsNullOrWhiteSpaceCheck),
+            new ApprovalOperation(TwoFerSyntax.ReturnsStringInterpolationWithNullCheck,
+                MentorReaction.ApproveWithComment, UseNullCoalescingOperatorNotTernaryOperatorWithNullCheck),
+            new ApprovalOperation(TwoFerSyntax.ReturnsStringConcatenation,
+                MentorReaction.ApproveWithComment, UseStringInterpolationNotStringConcatenation),
+            new ApprovalOperation(TwoFerSyntax.ReturnsStringFormat,
+                MentorReaction.ApproveWithComment, UseStringInterpolationNotStringFormat),
+        };
+
         private static SolutionAnalysis? AnalyzeSingleLine(this TwoFerSolution twoFerSolution)
         {
-            if (!twoFerSolution.UsesSingleLine())
-                return null;
-
-            if (twoFerSolution.ReturnsStringInterpolationWithDefaultValue() ||
-                twoFerSolution.ReturnsStringInterpolationWithNullCoalescingOperator())
-            {
-                return twoFerSolution.UsesExpressionBody() ?
-                    twoFerSolution.ApproveAsOptimal() :
-                    twoFerSolution.ApproveWithComment(UseExpressionBodiedMember);
-            }
-
-            if (twoFerSolution.ReturnsStringInterpolationWithIsNullOrEmptyCheck())
-                return twoFerSolution.ApproveWithComment(UseNullCoalescingOperatorNotTernaryOperatorWithIsNullOrEmptyCheck);
-
-            if (twoFerSolution.ReturnsStringInterpolationWithIsNullOrWhiteSpaceCheck())
-                return twoFerSolution.ApproveWithComment(UseNullCoalescingOperatorNotTernaryOperatorWithIsNullOrWhiteSpaceCheck);
-
-            if (twoFerSolution.ReturnsStringInterpolationWithNullCheck())
-                return twoFerSolution.ApproveWithComment(UseNullCoalescingOperatorNotTernaryOperatorWithNullCheck);
-
-            if (twoFerSolution.ReturnsStringConcatenation())
-                return twoFerSolution.ApproveWithComment(UseStringInterpolationNotStringConcatenation);
-
-            if (twoFerSolution.ReturnsStringFormat())
-                return twoFerSolution.ApproveWithComment(UseStringInterpolationNotStringFormat);
-
-            return null;
+            return ProcessSolution(twoFerSolution, singleLine);
         }
+
+        public static List<ApprovalOperation> analyzeParameterAssignment = new List<ApprovalOperation>
+        {
+            new ApprovalOperation(TwoFerSyntax.AssignsToParameter, MentorReaction.None, string.Empty, true),
+            new ApprovalOperation(TwoFerSyntax.AssignsParameterUsingKnownExpression, MentorReaction.ReferToMentor,
+                string.Empty, true),
+            new ApprovalOperation(TwoFerSyntax.ReturnsStringFormat, MentorReaction.ApproveWithComment,
+                UseStringInterpolationNotStringFormat),
+            new ApprovalOperation(TwoFerSyntax.ReturnsStringConcatenation, MentorReaction.ApproveWithComment,
+                UseStringInterpolationNotStringConcatenation),
+            new ApprovalOperation(TwoFerSyntax.AssignsParameterUsingNullCoalescingOperator,
+                MentorReaction.ApproveWithComment, ReturnImmediately),
+            new ApprovalOperation(TwoFerSyntax.AssignsParameterUsingNullCheck, MentorReaction.ApproveWithComment,
+                UseNullCoalescingOperatorNotNullCheck),
+            new ApprovalOperation(TwoFerSyntax.AssignsParameterUsingIfNullCheck, MentorReaction.ApproveWithComment,
+                UseNullCoalescingOperatorNotNullCheck),
+            new ApprovalOperation(TwoFerSyntax.AssignsParameterUsingIsNullOrEmptyCheck,
+                MentorReaction.ApproveWithComment, UseNullCoalescingOperatorNotIsNullOrEmptyCheck),
+            new ApprovalOperation(TwoFerSyntax.AssignsParameterUsingIfIsNullOrEmptyCheck,
+                MentorReaction.ApproveWithComment, UseNullCoalescingOperatorNotIsNullOrEmptyCheck),
+            new ApprovalOperation(TwoFerSyntax.AssignsParameterUsingIsNullOrWhiteSpaceCheck,
+                MentorReaction.ApproveWithComment, UseNullCoalescingOperatorNotIsNullOrWhiteSpaceCheck),
+            new ApprovalOperation(TwoFerSyntax.AssignsParameterUsingIfIsNullOrWhiteSpaceCheck,
+                MentorReaction.ApproveWithComment, UseNullCoalescingOperatorNotIsNullOrWhiteSpaceCheck),
+        };
 
         private static SolutionAnalysis? AnalyzeParameterAssignment(this TwoFerSolution twoFerSolution)
         {
-            if (!twoFerSolution.AssignsToParameter())
-                return null;
+            return ProcessSolution(twoFerSolution, analyzeParameterAssignment);
+        }
 
-            if (!twoFerSolution.AssignsParameterUsingKnownExpression())
-                return twoFerSolution.ReferToMentor();
 
-            if (twoFerSolution.ReturnsStringFormat())
-                return twoFerSolution.ApproveWithComment(UseStringInterpolationNotStringFormat);
+        public static List<ApprovalOperation> variableAssignments = new List<ApprovalOperation>
+        {
+            new ApprovalOperation(TwoFerSyntax.AssignsVariable, MentorReaction.None, string.Empty, true),
+            new ApprovalOperation(TwoFerSyntax.AssignsVariableUsingKnownInitializer, MentorReaction.ReferToMentor,
+                string.Empty, true),
+            new ApprovalOperation(TwoFerSyntax.ReturnsStringFormatWithVariable, MentorReaction.ApproveWithComment,
+                UseStringInterpolationNotStringFormat),
+            new ApprovalOperation(TwoFerSyntax.ReturnsStringConcatenationWithVariable,
+                MentorReaction.ApproveWithComment, UseStringInterpolationNotStringConcatenation),
+            new ApprovalOperation(TwoFerSyntax.ReturnsStringInterpolationWithVariable, MentorReaction.None,
+                string.Empty, true),
+            new ApprovalOperation(TwoFerSyntax.AssignsVariableUsingNullCoalescingOperator, MentorReaction.Approve,
+                string.Empty),
+            new ApprovalOperation(TwoFerSyntax.AssignsVariableUsingNullCheck, MentorReaction.ApproveWithComment,
+                UseNullCoalescingOperatorNotTernaryOperatorWithNullCheck),
+            new ApprovalOperation(TwoFerSyntax.AssignsVariableUsingIsNullOrEmptyCheck,
+                MentorReaction.ApproveWithComment, UseNullCoalescingOperatorNotTernaryOperatorWithIsNullOrEmptyCheck),
+            new ApprovalOperation(TwoFerSyntax.AssignsVariableUsingIsNullOrWhiteSpaceCheck,
+                MentorReaction.ApproveWithComment,
+                UseNullCoalescingOperatorNotTernaryOperatorWithIsNullOrWhiteSpaceCheck),
+        };
 
-            if (twoFerSolution.ReturnsStringConcatenation())
-                return twoFerSolution.ApproveWithComment(UseStringInterpolationNotStringConcatenation);
+        private static SolutionAnalysis? AnalyzeVariableAssignment(this TwoFerSolution twoFerSolution)
+        {
+            return ProcessSolution(twoFerSolution, variableAssignments);
+        }
 
-            if (!twoFerSolution.ReturnsStringInterpolation())
-                return null;
+        public static SolutionAnalysis? ProcessSolution(TwoFerSolution twoFerSolution,
+            List<ApprovalOperation> approvalOperations)
+        {
+            bool? MabyeNot(bool? res, bool not) => res switch
+            {
+                null => null,
+                _ when not => !res,
+                _ => res
+            };
 
-            if (twoFerSolution.AssignsParameterUsingNullCoalescingOperator())
-                return twoFerSolution.ApproveWithComment(ReturnImmediately);
-
-            if (twoFerSolution.AssignsParameterUsingNullCheck() ||
-                twoFerSolution.AssignsParameterUsingIfNullCheck())
-                return twoFerSolution.ApproveWithComment(UseNullCoalescingOperatorNotNullCheck);
-
-            if (twoFerSolution.AssignsParameterUsingIsNullOrEmptyCheck() ||
-                twoFerSolution.AssignsParameterUsingIfIsNullOrEmptyCheck())
-                return twoFerSolution.ApproveWithComment(UseNullCoalescingOperatorNotIsNullOrEmptyCheck);
-
-            if (twoFerSolution.AssignsParameterUsingIsNullOrWhiteSpaceCheck() ||
-                twoFerSolution.AssignsParameterUsingIfIsNullOrWhiteSpaceCheck())
-                return twoFerSolution.ApproveWithComment(UseNullCoalescingOperatorNotIsNullOrWhiteSpaceCheck);
+            foreach (var approvalAction in approvalOperations)
+            {
+                bool? result = MabyeNot(approvalAction.Condition(twoFerSolution), approvalAction.Not);
+                if (result.HasValue && result.Value)
+                {
+                    return approvalAction.MentorReaction switch
+                    {
+                        MentorReaction.Approve => twoFerSolution.ApproveAsOptimal(),
+                        MentorReaction.ApproveWithComment => twoFerSolution.ApproveWithComment(approvalAction.Comment),
+                        MentorReaction.Disapprove => twoFerSolution.DisapproveWithComment(approvalAction.Comment),
+                        MentorReaction.ReferToMentor => twoFerSolution.ReferToMentor(),
+                        MentorReaction.None => null,
+                        _ => null
+                    };
+                }
+            }
 
             return null;
         }
 
-        private static SolutionAnalysis? AnalyzeVariableAssignment(this TwoFerSolution twoFerSolution)
+        public enum MentorReaction
         {
-            if (!twoFerSolution.AssignsVariable())
-                return null;
+            Approve,
+            ApproveWithComment,
+            Disapprove,
+            ReferToMentor,
+            None
+        }
 
-            if (!twoFerSolution.AssignsVariableUsingKnownInitializer())
-                return twoFerSolution.ReferToMentor();
+        public delegate bool? Condition(TwoFerSolution ts);
 
-            if (twoFerSolution.ReturnsStringFormatWithVariable())
-                return twoFerSolution.ApproveWithComment(UseStringInterpolationNotStringFormat);
+        public class ApprovalOperation
+        {
+            public Condition Condition { get; }
+            public string Comment { get; }
+            public MentorReaction MentorReaction { get; }
+            public bool Not { get; }
 
-            if (twoFerSolution.ReturnsStringConcatenationWithVariable())
-                return twoFerSolution.ApproveWithComment(UseStringInterpolationNotStringConcatenation);
-
-            if (!twoFerSolution.ReturnsStringInterpolationWithVariable())
-                return null;
-
-            if (twoFerSolution.AssignsVariableUsingNullCoalescingOperator())
-                return twoFerSolution.ApproveAsOptimal();
-
-            if (twoFerSolution.AssignsVariableUsingNullCheck())
-                return twoFerSolution.ApproveWithComment(UseNullCoalescingOperatorNotTernaryOperatorWithNullCheck);
-
-            if (twoFerSolution.AssignsVariableUsingIsNullOrEmptyCheck())
-                return twoFerSolution.ApproveWithComment(UseNullCoalescingOperatorNotTernaryOperatorWithIsNullOrEmptyCheck);
-
-            if (twoFerSolution.AssignsVariableUsingIsNullOrWhiteSpaceCheck())
-                return twoFerSolution.ApproveWithComment(UseNullCoalescingOperatorNotTernaryOperatorWithIsNullOrWhiteSpaceCheck);
-
-            return null;
+            public ApprovalOperation(Condition cond,
+                MentorReaction mentorReaction,
+                string comment, bool not = false)
+            {
+                Condition = cond;
+                Comment = comment;
+                MentorReaction = mentorReaction;
+                Not = not;
+            }
         }
     }
 }
