@@ -96,11 +96,11 @@ namespace Exercism.Analyzers.CSharp.SyntaxFactoryGenerator
         {
             ParameterInfo firstArg;
             if ((firstArg = method.GetParameters().FirstOrDefault()) != null)
-                sb.Append($"@{firstArg.Name}");
+                sb.Append($"@{firstArg.Name}{(firstArg.ParameterType.IsValueType ? "!.Value" : string.Empty)}");
             foreach (var arg in method.GetParameters().Skip(1))
             {
                 sb.Append(", ");
-                sb.Append($"@{arg.Name}");
+                sb.Append($"@{arg.Name}{(arg.ParameterType.IsValueType ? "!.Value" : string.Empty)}");
             }
         }
 
@@ -115,11 +115,11 @@ namespace Exercism.Analyzers.CSharp.SyntaxFactoryGenerator
             sb.Append("(");
             ParameterInfo firstParam;
             if ((firstParam = method.GetParameters().FirstOrDefault()) != null)
-                sb.Append($"{firstParam.ParameterType.PrettyTypeName()} @{firstParam.Name}");
+                sb.Append($"{firstParam.ParameterType.PrettyTypeName()}{(firstParam.ParameterType.IsArray ? string.Empty : "?")} @{firstParam.Name}");
             foreach (var param in method.GetParameters().Skip(1))
             {
                 sb.Append(", ");
-                sb.Append($"{param.ParameterType.PrettyTypeName()} @{param.Name}");
+                sb.Append($"{param.ParameterType.PrettyTypeName()}{(param.ParameterType.IsArray ? string.Empty : "?")} @{param.Name}");
             }
             sb.Append(")");
         }
