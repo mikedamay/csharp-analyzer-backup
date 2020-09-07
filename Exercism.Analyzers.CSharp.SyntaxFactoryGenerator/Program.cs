@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace Exercism.Analyzers.CSharp.SyntaxFactoryGenerator
@@ -23,51 +25,137 @@ namespace Exercism.Analyzers.CSharp.SyntaxFactoryGenerator
                 .Where(m => m.IsPublic && m.IsStatic)
                 .ToList();
             var sb = new StringBuilder();
-            sb.AppendLine("using Microsoft.CodeAnalysis.CSharp;");
+            sb.AppendLine(@"
+                using System;
+                using System.Collections.Generic;
+                using System.Text;
+                using System.Threading;
+                using Microsoft.CodeAnalysis;
+                using Microsoft.CodeAnalysis.CSharp;
+                using Microsoft.CodeAnalysis.CSharp.Syntax;
+                using Microsoft.CodeAnalysis.Text;
+                ");
             sb.AppendLine();
-            sb.AppendLine("namespace Exercism.Analyzers.CSharp");
+            sb.AppendLine("namespace Exercism.Analyzers.CSharp.Analyzers");
             sb.AppendLine("{");
+            sb.AppendLine();
             sb.AppendLine("public static class NullSafeSyntaxFactory");
             sb.AppendLine("{");
             foreach (var method in roslynSyntaxFactoryMethods)
             {
-                sb.Append("\tpublic static ");
-                sb.Append(method.ReturnType.PrettyTypeName());
-                sb.Append(" ");
-                sb.Append(method.Name);
-                sb.Append("(");
-                ParameterInfo firstParam; 
-                if ((firstParam = method.GetParameters().FirstOrDefault()) != null)
-                    sb.Append($"{firstParam.ParameterType.PrettyTypeName()} @{firstParam.Name}");
-                foreach (var param in method.GetParameters().Skip(1))
+                if (method.Name == "Whitespace" || method.GetCustomAttributes().Any(a => a is ObsoleteAttribute))
                 {
-                    sb.Append(", ");
-                    sb.Append($"{param.ParameterType.PrettyTypeName()} @{param.Name}");
+                    continue;
                 }
-                sb.Append(")");
-                sb.AppendLine();
-                sb.AppendLine("\t{");
-                sb.Append("\t\t");
-                sb.Append($"return SyntaxFactory.{method.Name}");
-                sb.Append("(");
-                ParameterInfo firstArg; 
-                if ((firstArg = method.GetParameters().FirstOrDefault()) != null)
-                    sb.Append($"@{firstArg.Name}");
-                foreach (var arg in method.GetParameters().Skip(1))
+                if (!method.IsSpecialName)
                 {
-                    sb.Append(", ");
-                    sb.Append($"@{arg.Name}");
+                    AddMethod(sb, method);
                 }
-
-                sb.AppendLine(");");
-                sb.AppendLine("\t}");
-                sb.AppendLine();
+                else
+                {
+                    sb.Append("\tpublic static ");
+                    sb.Append(method.ReturnType.PrettyTypeName());
+                    sb.Append(" ");
+                    sb.Append(method.Name.Substring(4));    // get_Space => Space
+                    sb.Append(" { get; } = ");
+                    sb.Append($"SyntaxFactory.{method.Name.Substring(4)};");
+                    sb.AppendLine();
+                    sb.AppendLine();
+                }
             }
             sb.AppendLine("}");
             sb.AppendLine("}");
-            var @else = 55;
         }
-        
+
+        private static void AddMethod(StringBuilder sb, MethodInfo method)
+        {
+            AddSignature(sb, method);
+
+            foreach (var genericArg in method.GetGenericArguments())
+            {
+                AddConstraints(genericArg, sb);
+            }
+
+            sb.AppendLine();
+            sb.AppendLine("\t{");
+            sb.Append("\t\t");
+            sb.Append($"return SyntaxFactory.{method.Name}");
+            AddGenericArguments(sb, method);
+            sb.Append("(");
+            ParameterInfo firstArg;
+            if ((firstArg = method.GetParameters().FirstOrDefault()) != null)
+                sb.Append($"@{firstArg.Name}");
+            foreach (var arg in method.GetParameters().Skip(1))
+            {
+                sb.Append(", ");
+                sb.Append($"@{arg.Name}");
+            }
+
+            sb.AppendLine(");");
+            sb.AppendLine("\t}");
+            sb.AppendLine();
+        }
+
+        private static void AddSignature(StringBuilder sb, MethodInfo method)
+        {
+            sb.Append("\tpublic static ");
+            sb.Append(method.ReturnType.PrettyTypeName());
+            sb.Append(" ");
+            sb.Append(method.Name);
+            AddGenericArguments(sb, method);
+
+            sb.Append("(");
+            ParameterInfo firstParam;
+            if ((firstParam = method.GetParameters().FirstOrDefault()) != null)
+                sb.Append($"{firstParam.ParameterType.PrettyTypeName()} @{firstParam.Name}");
+            foreach (var param in method.GetParameters().Skip(1))
+            {
+                sb.Append(", ");
+                sb.Append($"{param.ParameterType.PrettyTypeName()} @{param.Name}");
+            }
+            sb.Append(")");
+        }
+
+        private static void AddGenericArguments(StringBuilder sb, MethodInfo method)
+        {
+            if (method.GetGenericArguments().Length > 0)
+            {
+                sb.Append("<");
+                Type firstGenericArg;
+                if ((firstGenericArg = method.GetGenericArguments().First()) != null)
+                    sb.Append(firstGenericArg.PrettyTypeName());
+                foreach (var genericArg in method.GetGenericArguments().Skip(1))
+                {
+                    sb.Append(", ");
+                    sb.Append(genericArg.PrettyTypeName());
+                }
+
+                sb.Append(">");
+            }
+        }
+
+        private static void AddConstraints(Type genericArg, StringBuilder sb)
+        {
+            if (genericArg.GetGenericParameterConstraints().Length > 0)
+            {
+                sb.Append(" where ");
+                sb.Append(genericArg.PrettyTypeName());
+                sb.Append(": ");
+            }
+
+            Type firstConstraint;
+            if ((firstConstraint = genericArg.GetGenericParameterConstraints().FirstOrDefault()) != null)
+            {
+                sb.Append(firstConstraint.PrettyTypeName());
+            }
+
+            foreach (var constraint in genericArg.GetGenericParameterConstraints().Skip(1))
+            {
+                sb.Append(", ");
+                sb.Append(constraint.PrettyTypeName());
+            }
+        }
+
     }
 
     public static class ToolExtensions
